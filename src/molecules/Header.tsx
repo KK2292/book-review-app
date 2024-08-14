@@ -1,6 +1,15 @@
-import { AppBar, Button, styled, Typography } from "@mui/material";
+import { AppBar, Button, Stack, styled, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export const Header = () => {
+export const Header: React.FC = () => {
+  const navigate = useNavigate();
+
+  const navigateToCreateNewThread = () => {
+    navigate("/threads/new");
+  };
+  const navigateToHome = () => {
+    navigate("/");
+  };
   const SButton = styled(Button)`
     color: #fff;
     border-color: #fff;
@@ -13,17 +22,36 @@ export const Header = () => {
     <AppBar
       position="static"
       sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "5px 20px",
+        padding: "5px 40px",
       }}
     >
-      <Typography variant="h1" sx={{ fontSize: "20px", color: "#fff" }}>
-        掲示板
-      </Typography>
-      <SButton variant="outlined">スレッドを立てる</SButton>
+      <Stack
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          maxWidth: "1080px",
+          margin: "auto",
+        }}
+      >
+        <Typography
+          variant="h1"
+          sx={{
+            fontSize: "20px",
+            color: "#fff",
+            cursor: "pointer",
+            ":hover": { opacity: 0.7 },
+          }}
+          onClick={navigateToHome}
+        >
+          掲示板
+        </Typography>
+        <SButton variant="outlined" onClick={navigateToCreateNewThread}>
+          スレッドを立てる
+        </SButton>
+      </Stack>
     </AppBar>
   );
 };
