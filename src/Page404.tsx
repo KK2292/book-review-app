@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
-import { H2 } from "./atoms/H2";
+import { PageTitle } from "./atoms/PageTitle";
 
 export const Page404: React.FC = () => {
   return (
     <>
-      <H2>
-        ページが見つかりませんでした
-      </H2>
+      <PageTitle>ページが見つかりませんでした</PageTitle>
       <Link to="/">ホームに戻る</Link>
     </>
   );

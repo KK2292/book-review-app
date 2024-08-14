@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 
-interface H2Props {
+interface PageTitleProps {
   children: React.ReactNode;
 }
 
-export const H2: React.FC<H2Props> = ({ children }) => {
+export const PageTitle: React.FC<PageTitleProps> = ({ children }) => {
   return (
     <Typography variant="h2" sx={{ fontSize: "20px" }}>
       {children}

@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemText, styled } from "@mui/material";
-import { H2 } from "../atoms/H2";
-import { Thread } from "../type/Thread";
+import { PageTitle } from "../atoms/PageTitle";
 import { Page1Column } from "../templates/Page1Column";
+import { Thread } from "../type/Thread";
 
 interface HomeProps {
   threads: Thread[];
@@ -25,7 +25,7 @@ export const Home: React.FC<HomeProps> = (props) => {
   const { threads } = props;
   return (
     <>
-      <H2>新着スレッド</H2>
+      <PageTitle>新着スレッド</PageTitle>
       <Page1Column>
         <List sx={{ borderCollapse: "collapse" }}>
           {threads.map((thread) => (

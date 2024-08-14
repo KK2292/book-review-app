@@ -1,10 +1,10 @@
 import { Box, Button, TextField } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Link } from "react-router-dom";
-import { H2 } from "../atoms/H2";
-import { Thread } from "../type/Thread";
-import { Page1Column } from "../templates/Page1Column";
 import { v4 as uuidv4 } from "uuid";
+import { PageTitle } from "../atoms/PageTitle";
+import { Page1Column } from "../templates/Page1Column";
+import { Thread } from "../type/Thread";
 
 interface CreateNewThreadProps {
   threads: Thread[];
@@ -31,15 +31,15 @@ export const CreateNewThread: React.FC<CreateNewThreadProps> = (props) => {
           id: data.id,
         };
         console.log([...threads, newThread]);
-
         setThreads([...threads, newThread]);
+        setTitle("");
       })
       .catch((error) => console.log(error));
   };
 
   return (
     <>
-      <H2>スレッドの新規作成</H2>
+      <PageTitle>スレッドの新規作成</PageTitle>
       <Page1Column>
         <TextField
           id="filled-basic"
