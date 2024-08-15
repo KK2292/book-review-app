@@ -1,32 +1,30 @@
-import { useState } from "react";
+import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { Header } from "./molecules/Header";
-import { Page404 } from "./Page404";
 import { CreateNewThread } from "./organisms/CreateNewThread";
 import { Home } from "./organisms/Home";
-import { PageTemplate } from "./templates/PageTemplate";
-import { Thread } from "./type/Thread";
 import { ThreadDetail } from "./organisms/ThreadDetail";
+import { Page404 } from "./Page404";
+import { PageTemplate } from "./templates/PageTemplate";
 
 export const App: React.FC = () => {
-  const [threads, setThreads] = useState<Thread[]>([]);
-
   return (
     <>
-      <Header />
-      <PageTemplate>
-        <Routes>
-          <Route path="/" element={<Home threads={threads} />} />
-          <Route
-            path="/threads/new"
-            element={
-              <CreateNewThread setThreads={setThreads} threads={threads} />
-            }
-          />
-          <Route path="/threads/:" element={<ThreadDetail />} />
-          <Route path="*" element={<Page404 />} />
-        </Routes>
-      </PageTemplate>
+      <Container
+        sx={{ backgroundColor: "#D9D9D9", minHeight: "100vh" }}
+        maxWidth={false}
+        style={{ paddingLeft: "0", paddingRight: "0" }}
+      >
+        <Header />
+        <PageTemplate>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/threads/new" element={<CreateNewThread />} />
+            <Route path="/threads/:thread_id" element={<ThreadDetail />} />
+            <Route path="*" element={<Page404 />} />
+          </Routes>
+        </PageTemplate>
+      </Container>
     </>
   );
 };

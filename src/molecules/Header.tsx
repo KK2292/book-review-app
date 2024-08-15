@@ -1,4 +1,4 @@
-import { AppBar, Button, Stack, styled, Typography } from "@mui/material";
+import { AppBar, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export const Header: React.FC = () => {
@@ -10,14 +10,6 @@ export const Header: React.FC = () => {
   const navigateToHome = () => {
     navigate("/");
   };
-  const SButton = styled(Button)`
-    color: #fff;
-    border-color: #fff;
-    display: inline-block;
-    &&:hover {
-      opacity: 0.7;
-    }
-  `;
   return (
     <AppBar
       position="static"
@@ -48,9 +40,13 @@ export const Header: React.FC = () => {
         >
           掲示板
         </Typography>
-        <SButton variant="outlined" onClick={navigateToCreateNewThread}>
+        <Button
+          variant="outlined"
+          onClick={navigateToCreateNewThread}
+          sx={{ color: "#fff", borderColor: "#fff", display: "inlineBlock" }}
+        >
           スレッドを立てる
-        </SButton>
+        </Button>
       </Stack>
     </AppBar>
   );

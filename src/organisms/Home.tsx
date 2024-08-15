@@ -2,10 +2,8 @@ import { List, ListItem, ListItemText, styled } from "@mui/material";
 import { PageTitle } from "../atoms/PageTitle";
 import { Page1Column } from "../templates/Page1Column";
 import { Thread } from "../type/Thread";
-
-interface HomeProps {
-  threads: Thread[];
-}
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const SListItem = styled(ListItem)`
   text-align: center;
@@ -21,15 +19,37 @@ const SListItem = styled(ListItem)`
   }
 `;
 
-export const Home: React.FC<HomeProps> = (props) => {
-  const { threads } = props;
+export const Home: React.FC = () => {
+  const navigate = useNavigate();
+
+  const [threads, setThreads] = useState<Thread[]>([]);
+
+  useEffect(() => {
+    fetch("https://railway.bulletinboard.techtrain.dev/threads").then(
+      (response) =>
+        response.json().then((data) => {
+          setThreads(data);
+        })
+    );
+  }, []);
+
+  const onClickThread = (thread: Thread) => {
+    navigate(`/threads/${thread.id}`, { state: { thread } });
+  };
+
   return (
     <>
       <PageTitle>新着スレッド</PageTitle>
       <Page1Column>
-        <List sx={{ borderCollapse: "collapse" }}>
+        <List>
           {threads.map((thread) => (
-            <SListItem key={thread.id}>
+            <SListItem
+              key={thread.id}
+              onClick={() => {
+                onClickThread(thread);
+              }}
+              sx={{ backgroundColor: "#fff" }}
+            >
               <ListItemText primary={thread.title} />
             </SListItem>
           ))}
