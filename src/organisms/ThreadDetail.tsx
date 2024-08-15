@@ -13,7 +13,7 @@ import {
 
 type post = {
   id: string;
-  title: string;
+  post: string;
 };
 
 export const ThreadDetail: FC = () => {
