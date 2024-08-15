@@ -27,7 +27,6 @@ export const ThreadDetail: FC = () => {
       `https://railway.bulletinboard.techtrain.dev/threads/${thread.id}/posts`
     ).then((response) =>
       response.json().then((data) => {
-        console.log(data);
         setPosts(data.posts);
       })
     );
@@ -48,7 +47,6 @@ export const ThreadDetail: FC = () => {
           `https://railway.bulletinboard.techtrain.dev/threads/${thread.id}/posts`
         ).then((response) =>
           response.json().then((data) => {
-            console.log(data.posts);
             setPosts(data.posts);
             setPostTextField("");
           })
