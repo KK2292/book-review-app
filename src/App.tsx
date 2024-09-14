@@ -1,8 +1,9 @@
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { Header } from "./molecules/Header";
-import { Home } from "./organisms/Home";
-import { Page404 } from "./Page404";
+import { Home } from "./pages/Home";
+import { Page404 } from "./pages/Page404";
+import { LoginPage } from "./pages/LoginPage";
 
 export const App: React.FC = () => {
   return (
@@ -13,11 +14,13 @@ export const App: React.FC = () => {
         style={{ paddingLeft: "0", paddingRight: "0" }}
       >
         <Header />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Page404 />} />
-        </Routes>
+        <Container>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<Page404 />} />
+          </Routes>
+        </Container>
       </Container>
     </>
   );

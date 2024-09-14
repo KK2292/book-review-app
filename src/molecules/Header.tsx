@@ -38,14 +38,14 @@ export const Header: React.FC = () => {
           }}
           onClick={navigateToHome}
         >
-          掲示板
+          書籍レビューアプリ
         </Typography>
         <Button
           variant="outlined"
           onClick={navigateToCreateNewThread}
           sx={{ color: "#fff", borderColor: "#fff", display: "inlineBlock" }}
         >
-          スレッドを立てる
+          あいうえお
         </Button>
       </Stack>
     </AppBar>
