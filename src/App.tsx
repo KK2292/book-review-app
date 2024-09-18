@@ -31,7 +31,7 @@ export const App: React.FC = () => {
         <Container>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setToast={setToast} />} />
             <Route path="/signup" element={<Signup setToast={setToast} />} />
             <Route path="*" element={<Page404 />} />
           </Routes>

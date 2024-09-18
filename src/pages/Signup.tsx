@@ -1,22 +1,18 @@
-import styled from "@emotion/styled";
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
+import Compressor from "compressorjs";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../api";
 import { typeToast } from "../atoms/Toast";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import Compressor from "compressorjs";
+import { ValidationMessage } from "../atoms/ValidationMessage";
+import { userData } from "../types/userData";
 
 type SignupProps = {
   setToast: (toast: typeToast) => void;
 };
 
-type userData = {
-  name: string;
-  email: string;
-  password: string;
-};
 
 export const Signup = (props: SignupProps) => {
   const { setToast } = props;
@@ -104,12 +100,6 @@ export const Signup = (props: SignupProps) => {
     });
   };
 
-  const ValidationMessage = styled.p`
-    color: rgb(211, 47, 47);
-    font-size: 14px;
-    margin: 0 0 16px;
-    text-align: left;
-  `;
 
   return (
     <>

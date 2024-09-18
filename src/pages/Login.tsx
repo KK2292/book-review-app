@@ -1,13 +1,53 @@
 import { Box, Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { userData } from "../types/userData";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { API_URL } from "../api";
+import { typeToast } from "../atoms/Toast";
+import { ValidationMessage } from "../atoms/ValidationMessage";
 
-export const Login: React.FC = () => {
+type LoginProps = {
+  setToast: (toast: typeToast) => void;
+};
+
+export const Login = (props: LoginProps) => {
+  const { setToast } = props;
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<userData>();
+  const onSubmit = async (formData: userData) => {
+    try {
+      const response = await axios.post(`${API_URL}/signin`, formData);
+      if (response.data.token) {
+        setToast({
+          open: true,
+          message: "ログインしました",
+          severity: "success",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setToast({
+          open: true,
+          message: error.response?.data.ErrorMessageJP,
+          severity: "error",
+        });
+      }
+    }
+  };
+
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box
         sx={{ width: "500px", margin: "80px auto", textAlign: "center" }}
         component="form"
         noValidate
+        onSubmit={handleSubmit(onSubmit)}
       >
         <TextField
           margin="normal"
@@ -16,11 +56,17 @@ export const Login: React.FC = () => {
           label="メールアドレス"
           id="email"
           type="email"
-          name="email"
           autoComplete="email"
           autoFocus
-          value=""
+          {...register("email", {
+            required: "メールアドレスを入力してください",
+          })}
         />
+        {errors.email && (
+          <ValidationMessage>
+            {errors.email.message as string}
+          </ValidationMessage>
+        )}
         <TextField
           margin="normal"
           required
@@ -28,11 +74,16 @@ export const Login: React.FC = () => {
           label="パスワード"
           id="password"
           type="password"
-          name="password"
           autoComplete="password"
-          value=""
+          {...register("password", {
+            required: "パスワードを入力してください",
+          })}
         />
-
+        {errors.password && (
+          <ValidationMessage>
+            {errors.password.message as string}
+          </ValidationMessage>
+        )}
         <Button
           sx={{ color: "#fff", margin: "auto", display: "inline-block" }}
           type="submit"
