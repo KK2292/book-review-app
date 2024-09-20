@@ -13,7 +13,6 @@ type SignupProps = {
   setToast: (toast: typeToast) => void;
 };
 
-
 export const Signup = (props: SignupProps) => {
   const { setToast } = props;
   const navigate = useNavigate();
@@ -28,7 +27,8 @@ export const Signup = (props: SignupProps) => {
   const onSubmit = async (formData: userData) => {
     try {
       const userResponse = await axios.post(`${API_URL}/users`, formData);
-      const token = userResponse.data.token;
+      const tokenResponsed = userResponse.data.token;
+      localStorage.setItem("token", tokenResponsed);
 
       if (previewImage) {
         const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
@@ -41,19 +41,21 @@ export const Signup = (props: SignupProps) => {
         try {
           await axios.post(`${API_URL}/uploads`, uploadImage, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${tokenResponsed}`,
             },
           });
         } catch (error) {
           if (axios.isAxiosError(error)) {
             setToast({
               open: true,
-              message: error.response?.data || "アップロードに失敗しました",
+              message:
+                error.response?.data || "画像のアップロードに失敗しました",
               severity: "error",
             });
             return;
           }
         }
+
         setToast({
           open: true,
           message: "登録が完了しました",
@@ -99,7 +101,6 @@ export const Signup = (props: SignupProps) => {
       },
     });
   };
-
 
   return (
     <>

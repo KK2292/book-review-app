@@ -1,19 +1,37 @@
 import { Container } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import { API_URL } from "./api";
+import { Toast } from "./atoms/Toast";
 import { Header } from "./molecules/Header";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Page404 } from "./pages/Page404";
 import { Signup } from "./pages/Signup";
-import { Toast } from "./atoms/Toast";
-import { useState } from "react";
 
-export const App: React.FC = () => {
+export const App = () => {
   const [toast, setToast] = useState({
     open: false,
     message: "",
     severity: "success" as "success" | "error",
   });
+  const [userData, setUserData] = useState({ name: "", iconUrl: "" });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        const userData = await axios.get(`${API_URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        });
+        setUserData(userData.data);
+      }
+    };
+    fetchUserData();
+  }, [toast]);
   return (
     <>
       <Toast
@@ -27,7 +45,7 @@ export const App: React.FC = () => {
         maxWidth={false}
         style={{ paddingLeft: "0", paddingRight: "0" }}
       >
-        <Header />
+        <Header userData={userData} />
         <Container>
           <Routes>
             <Route path="/" element={<Home />} />

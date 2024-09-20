@@ -1,12 +1,12 @@
-import { AppBar, Button, Stack, Typography } from "@mui/material";
+import { AppBar, Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export const Header: React.FC = () => {
+export const Header = (props: {
+  userData: { name: string; iconUrl: string };
+}) => {
+  const { userData } = props;
   const navigate = useNavigate();
 
-  const navigateToCreateNewThread = () => {
-    navigate("/threads/new");
-  };
   const navigateToHome = () => {
     navigate("/");
   };
@@ -41,12 +41,19 @@ export const Header: React.FC = () => {
           書籍レビューアプリ
         </Typography>
         <Button
-          variant="outlined"
-          onClick={navigateToCreateNewThread}
-          sx={{ color: "#fff", borderColor: "#fff", display: "inlineBlock" }}
+          sx={{ color: "#fff" }}
+          onClick={() => localStorage.removeItem("token")}
         >
-          あいうえお
+          トークン削除
         </Button>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "0 16px" }}>
+          <Typography sx={{ color: "#fff" }}>{userData.name}</Typography>
+          <Box
+            component="img"
+            src={userData.iconUrl ?? "default.jpg"}
+            sx={{ width: "40px", height: "40px", borderRadius: "50%" }}
+          />
+        </Box>
       </Stack>
     </AppBar>
   );

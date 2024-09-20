@@ -21,8 +21,10 @@ export const Login = (props: LoginProps) => {
   } = useForm<userData>();
   const onSubmit = async (formData: userData) => {
     try {
-      const response = await axios.post(`${API_URL}/signin`, formData);
-      if (response.data.token) {
+      const userResponse = await axios.post(`${API_URL}/signin`, formData);
+      const tokenResponsed = userResponse.data.token;
+      localStorage.setItem("token", tokenResponsed);
+      if (tokenResponsed) {
         setToast({
           open: true,
           message: "ログインしました",
