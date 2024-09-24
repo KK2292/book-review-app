@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 export const Header = (props: {
   userData: { name: string | null; iconUrl: string | null };
   isAuthenticated: boolean;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 }) => {
-  const { userData, isAuthenticated } = props;
+  const { userData, isAuthenticated, setIsAuthenticated } = props;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,7 +20,7 @@ export const Header = (props: {
 
   const onClickLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    setIsAuthenticated(false);
   };
   return (
     <AppBar

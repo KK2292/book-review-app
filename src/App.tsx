@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { API_URL } from "./api";
 import { Toast } from "./atoms/Toast";
 import { Header } from "./molecules/Header";
@@ -15,13 +15,16 @@ import { ReviewDetail } from "./pages/ReviewDetail";
 import { Signup } from "./pages/Signup";
 
 export const App = () => {
+  const navigate = useNavigate();
   const [toast, setToast] = useState({
     open: false,
     message: "",
     severity: "success" as "success" | "error",
   });
   const [userData, setUserData] = useState({ name: null, iconUrl: null });
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("token") ? true : false
+  );
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -33,21 +36,21 @@ export const App = () => {
               Authorization: `Bearer ${storedToken}`,
             },
           });
-          console.log("try");
           setUserData(userData.data);
-          setIsAuthenticated(true);
         } catch (error) {
           console.error(error);
-          setIsAuthenticated(false);
         }
       } else {
         if (userData.name === null) return;
         setUserData({ name: null, iconUrl: null });
-        setIsAuthenticated(false);
       }
     };
     fetchUserData();
-  }, []);
+  }, [userData.name, isAuthenticated]);
+
+  useEffect(() => {
+    if (isAuthenticated) navigate("/");
+  }, [isAuthenticated, navigate]);
   return (
     <>
       <Toast
@@ -61,7 +64,11 @@ export const App = () => {
         maxWidth={false}
         style={{ paddingLeft: "0", paddingRight: "0" }}
       >
-        <Header userData={userData} isAuthenticated={isAuthenticated} />
+        <Header
+          userData={userData}
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+        />
         <Container>
           <Routes>
             <Route
@@ -70,7 +77,16 @@ export const App = () => {
             />
             <Route
               path="/login"
-              element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Login
+                    setToast={setToast}
+                    setIsAuthenticated={setIsAuthenticated}
+                  />
+                )
+              }
             />
             <Route
               path="/signup"
@@ -78,7 +94,10 @@ export const App = () => {
                 isAuthenticated ? (
                   <Navigate to="/" />
                 ) : (
-                  <Signup setToast={setToast} />
+                  <Signup
+                    setToast={setToast}
+                    setIsAuthenticated={setIsAuthenticated}
+                  />
                 )
               }
             />

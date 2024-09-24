@@ -11,10 +11,11 @@ import { userData } from "../types/userData";
 
 type SignupProps = {
   setToast: (toast: typeToast) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 };
 
 export const Signup = (props: SignupProps) => {
-  const { setToast } = props;
+  const { setToast, setIsAuthenticated } = props;
   const [previewImage, setPreviewImage] = useState<File | null>(null);
 
   const {
@@ -60,6 +61,7 @@ export const Signup = (props: SignupProps) => {
         message: "登録が完了しました",
         severity: "success",
       });
+      setIsAuthenticated(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setToast({

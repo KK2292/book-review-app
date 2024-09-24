@@ -2,10 +2,15 @@ import { Box, Button, Link, TextField } from "@mui/material";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { API_URL } from "../api";
+import { typeToast } from "../atoms/Toast";
 import { ValidationMessage } from "../atoms/ValidationMessage";
 import { userData } from "../types/userData";
 
-export const Login = () => {
+export const Login = (props: {
+  setToast: (toast: typeToast) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+}) => {
+  const { setToast, setIsAuthenticated } = props;
   const {
     register,
     handleSubmit,
@@ -16,8 +21,22 @@ export const Login = () => {
       const userResponse = await axios.post(`${API_URL}/signin`, formData);
       const tokenResponsed = userResponse.data.token;
       localStorage.setItem("token", tokenResponsed);
+      setToast({
+        open: true,
+        message: "ログインしました",
+        severity: "success",
+      });
+      setIsAuthenticated(true);
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        setToast({
+          open: true,
+          message:
+            error.response?.data.ErrorMessageJP || "ログインに失敗しました",
+          severity: "error",
+        });
+      }
     }
   };
 
