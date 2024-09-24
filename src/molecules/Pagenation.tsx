@@ -21,6 +21,7 @@ export const Pagenation = (props: {
         variant="contained"
         aria-label="Basic button group"
         sx={{
+          color: "#fff",
           "& > *": {
             color: "#fff",
           },

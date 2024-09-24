@@ -1,14 +1,25 @@
 import { AppBar, Box, Button, Stack, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Header = (props: {
-  userData: { name: string; iconUrl: string };
+  userData: { name: string | null; iconUrl: string | null };
+  isAuthenticated: boolean;
 }) => {
-  const { userData } = props;
+  const { userData, isAuthenticated } = props;
   const navigate = useNavigate();
+  const location = useLocation();
 
   const navigateToHome = () => {
     navigate("/");
+  };
+
+  const navigateToProfile = () => {
+    navigate("/profile");
+  };
+
+  const onClickLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
   return (
     <AppBar
@@ -40,18 +51,38 @@ export const Header = (props: {
         >
           書籍レビューアプリ
         </Typography>
-        <Button
-          sx={{ color: "#fff" }}
-          onClick={() => localStorage.removeItem("token")}
+        {isAuthenticated && (
+          <Button sx={{ color: "#fff" }} onClick={onClickLogout}>
+            ログアウト
+          </Button>
+        )}
+
+        {location.pathname === "/" && (
+          <Button sx={{ color: "#fff" }} onClick={navigateToProfile}>
+            ユーザー情報
+          </Button>
+        )}
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0 16px",
+            position: "relative",
+          }}
         >
-          トークン削除
-        </Button>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "0 16px" }}>
-          <Typography sx={{ color: "#fff" }}>{userData.name}</Typography>
+          <Typography sx={{ color: "#fff" }}>
+            {userData.name ?? "未ログイン"}
+          </Typography>
           <Box
             component="img"
             src={userData.iconUrl ?? "default.jpg"}
-            sx={{ width: "40px", height: "40px", borderRadius: "50%" }}
+            alt="icon"
+            sx={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+            }}
           />
         </Box>
       </Stack>

@@ -3,7 +3,7 @@ import axios from "axios";
 import Compressor from "compressorjs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API_URL } from "../api";
 import { typeToast } from "../atoms/Toast";
 import { ValidationMessage } from "../atoms/ValidationMessage";
@@ -15,7 +15,6 @@ type SignupProps = {
 
 export const Signup = (props: SignupProps) => {
   const { setToast } = props;
-  const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState<File | null>(null);
 
   const {
@@ -55,14 +54,12 @@ export const Signup = (props: SignupProps) => {
             return;
           }
         }
-
-        setToast({
-          open: true,
-          message: "登録が完了しました",
-          severity: "success",
-        });
       }
-      navigate("/");
+      setToast({
+        open: true,
+        message: "登録が完了しました",
+        severity: "success",
+      });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setToast({

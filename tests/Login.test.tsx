@@ -1,10 +1,11 @@
+/// <reference types="jest" />
 import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { LoginPage } from "../src/pages/LoginPage";
+import { Login } from "../src/pages/Login";
 
-test("LoginPageがレンダリングされている", () => {
-  render(<LoginPage />);
+test("Loginがレンダリングされている", () => {
+  render(<Login />);
 
   expect(screen.getByLabelText(/メールアドレス/)).toBeInTheDocument();
   expect(screen.getByLabelText(/パスワード/)).toBeInTheDocument();

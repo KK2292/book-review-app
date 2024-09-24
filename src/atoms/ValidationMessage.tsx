@@ -6,7 +6,7 @@ export const ValidationMessage = (props: { children: string }) => {
   const Sp = styled("p")`
     color: rgb(211, 47, 47);
     font-size: 14px;
-    margin: 0 0 16px;
+    margin: 0;
     text-align: left;
   `;
 

@@ -1,13 +1,17 @@
 import { Container } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { API_URL } from "./api";
 import { Toast } from "./atoms/Toast";
 import { Header } from "./molecules/Header";
+import { EditReview } from "./pages/EditReview";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Page404 } from "./pages/Page404";
+import { Profile } from "./pages/Profile";
+import { RegisterReview } from "./pages/RegisterReview";
+import { ReviewDetail } from "./pages/ReviewDetail";
 import { Signup } from "./pages/Signup";
 
 export const App = () => {
@@ -16,22 +20,34 @@ export const App = () => {
     message: "",
     severity: "success" as "success" | "error",
   });
-  const [userData, setUserData] = useState({ name: "", iconUrl: "" });
+  const [userData, setUserData] = useState({ name: null, iconUrl: null });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const storedToken = localStorage.getItem("token");
       if (storedToken) {
-        const userData = await axios.get(`${API_URL}/users`, {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-          },
-        });
-        setUserData(userData.data);
+        try {
+          const userData = await axios.get(`${API_URL}/users`, {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
+          console.log("try");
+          setUserData(userData.data);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error(error);
+          setIsAuthenticated(false);
+        }
+      } else {
+        if (userData.name === null) return;
+        setUserData({ name: null, iconUrl: null });
+        setIsAuthenticated(false);
       }
     };
     fetchUserData();
-  }, [toast]);
+  }, []);
   return (
     <>
       <Toast
@@ -41,16 +57,44 @@ export const App = () => {
         setToast={setToast}
       />
       <Container
-        sx={{ backgroundColor: "#D9D9D9", minHeight: "100vh" }}
+        sx={{ backgroundColor: "#eee", minHeight: "100vh" }}
         maxWidth={false}
         style={{ paddingLeft: "0", paddingRight: "0" }}
       >
-        <Header userData={userData} />
+        <Header userData={userData} isAuthenticated={isAuthenticated} />
         <Container>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login setToast={setToast} />} />
-            <Route path="/signup" element={<Signup setToast={setToast} />} />
+            <Route
+              path="/"
+              element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/login"
+              element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+            />
+            <Route
+              path="/signup"
+              element={
+                isAuthenticated ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Signup setToast={setToast} />
+                )
+              }
+            />
+            <Route
+              path="/profile"
+              element={<Profile userName={userData.name} setToast={setToast} />}
+            />
+            <Route
+              path="/new"
+              element={<RegisterReview setToast={setToast} />}
+            />
+            <Route path="/detail/:id" element={<ReviewDetail />} />
+            <Route
+              path="/edit/:id"
+              element={<EditReview setToast={setToast} />}
+            />
             <Route path="*" element={<Page404 />} />
           </Routes>
         </Container>

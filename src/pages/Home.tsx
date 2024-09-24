@@ -1,13 +1,16 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API_URL } from "../api";
 import { ReviewList } from "../molecules/ReviewList";
 import { Pagenation } from "../molecules/Pagenation";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+  const navigate = useNavigate();
   const [reviewData, setReviewData] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,6 +30,10 @@ export const Home = () => {
     fetchData();
   }, [currentPage]);
 
+  const navigateToRegisterReview = () => {
+    navigate("/new");
+  };
+
   return (
     <>
       <Box sx={{ textAlign: "center", p: 4 }}>
@@ -40,6 +47,13 @@ export const Home = () => {
           >
             レビュー一覧
           </Typography>
+          <Button
+            variant="contained"
+            sx={{ color: "#fff" }}
+            onClick={navigateToRegisterReview}
+          >
+            レビュー登録
+          </Button>
           <ReviewList reviewData={reviewData} />
           <Pagenation
             currentPage={currentPage}

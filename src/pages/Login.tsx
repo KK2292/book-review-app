@@ -1,19 +1,11 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import { userData } from "../types/userData";
-import { useForm } from "react-hook-form";
+import { Box, Button, Link, TextField } from "@mui/material";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 import { API_URL } from "../api";
-import { typeToast } from "../atoms/Toast";
 import { ValidationMessage } from "../atoms/ValidationMessage";
+import { userData } from "../types/userData";
 
-type LoginProps = {
-  setToast: (toast: typeToast) => void;
-};
-
-export const Login = (props: LoginProps) => {
-  const { setToast } = props;
-  const navigate = useNavigate();
+export const Login = () => {
   const {
     register,
     handleSubmit,
@@ -24,22 +16,8 @@ export const Login = (props: LoginProps) => {
       const userResponse = await axios.post(`${API_URL}/signin`, formData);
       const tokenResponsed = userResponse.data.token;
       localStorage.setItem("token", tokenResponsed);
-      if (tokenResponsed) {
-        setToast({
-          open: true,
-          message: "ログインしました",
-          severity: "success",
-        });
-        navigate("/");
-      }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setToast({
-          open: true,
-          message: error.response?.data.ErrorMessageJP,
-          severity: "error",
-        });
-      }
+      console.error(error);
     }
   };
 
@@ -95,7 +73,7 @@ export const Login = (props: LoginProps) => {
           ログイン
         </Button>
       </Box>
-      <Link to="/signup">アカウントを新規作成</Link>
+      <Link href="/signup">アカウントを新規作成</Link>
     </Box>
   );
 };
