@@ -17,19 +17,24 @@ export const Pagenation = (props: {
   return (
     <>
       <Typography>{currentPage + 1}ページ目</Typography>
-      <ButtonGroup
-        variant="contained"
-        aria-label="Basic button group"
-        sx={{
-          color: "#fff",
-          "& > *": {
+      <ButtonGroup variant="contained" aria-label="Basic button group">
+        <Button
+          sx={{
             color: "#fff",
-          },
-        }}
-      >
-        <Button onClick={onClickPreviousPage}>前へ</Button>
+          }}
+          onClick={onClickPreviousPage}
+        >
+          前へ
+        </Button>
 
-        <Button onClick={onClickNextPage}>次へ</Button>
+        <Button
+          sx={{
+            color: "#fff",
+          }}
+          onClick={onClickNextPage}
+        >
+          次へ
+        </Button>
       </ButtonGroup>
     </>
   );

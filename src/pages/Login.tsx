@@ -50,7 +50,6 @@ export const Login = (props: {
       >
         <TextField
           margin="normal"
-          required
           fullWidth
           label="メールアドレス"
           id="email"
@@ -68,7 +67,6 @@ export const Login = (props: {
         )}
         <TextField
           margin="normal"
-          required
           fullWidth
           label="パスワード"
           id="password"

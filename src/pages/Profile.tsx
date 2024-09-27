@@ -57,7 +57,12 @@ export const Profile = (props: {
         ユーザー情報
       </Typography>
       <Box
-        sx={{ width: "500px", margin: "80px auto", textAlign: "center" }}
+        sx={{
+          width: "500px",
+          maxWidth: "100%",
+          margin: "80px auto",
+          textAlign: "center",
+        }}
         component="form"
         noValidate
         onSubmit={handleSubmit(onSubmit)}

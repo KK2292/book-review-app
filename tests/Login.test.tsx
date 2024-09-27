@@ -1,20 +1,23 @@
-/// <reference types="jest" />
 import React from "react";
-import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
 import { Login } from "../src/pages/Login";
 
-test("Loginがレンダリングされている", () => {
-  const mockSetToast = jest.fn();
-  const mockSetIsAuthenticated = jest.fn();
-  render(
-    <Login
-      setToast={mockSetToast}
-      setIsAuthenticated={mockSetIsAuthenticated}
-    />
-  );
+describe("Login Component", () => {
+  it("should render Login component", () => {
+    const mockSetToast = vi.fn();
+    const mockSetIsAuthenticated = vi.fn();
+    render(
+      <Login
+        setToast={mockSetToast}
+        setIsAuthenticated={mockSetIsAuthenticated}
+      />
+    );
 
-  expect(screen.getByLabelText(/メールアドレス/)).toBeInTheDocument();
-  expect(screen.getByLabelText(/パスワード/)).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "ログイン" })).toBeInTheDocument();
+    expect(screen.getByLabelText(/メールアドレス/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/パスワード/)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "ログイン" })
+    ).toBeInTheDocument();
+  });
 });

@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { API_URL } from "./api";
 import { Toast } from "./atoms/Toast";
 import { Header } from "./molecules/Header";
@@ -15,7 +15,6 @@ import { ReviewDetail } from "./pages/ReviewDetail";
 import { Signup } from "./pages/Signup";
 
 export const App = () => {
-  const navigate = useNavigate();
   const [toast, setToast] = useState({
     open: false,
     message: "",
@@ -46,11 +45,8 @@ export const App = () => {
       }
     };
     fetchUserData();
-  }, [userData.name, isAuthenticated]);
+  }, [userData.name, isAuthenticated,toast]);
 
-  useEffect(() => {
-    if (isAuthenticated) navigate("/");
-  }, [isAuthenticated, navigate]);
   return (
     <>
       <Toast

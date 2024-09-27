@@ -57,16 +57,19 @@ export const ReviewList = (props: { reviewData: reviewData[] }) => {
                   fontSize: "24px",
                   color: "#000",
                   textAlign: "left",
+                  height: "28px",
+                  overflow: "hidden",
                 }}
               >
                 {data.title}
               </Typography>
               <Typography
-                variant="h4"
                 sx={{
                   fontSize: "14px",
                   color: "#222",
                   textAlign: "left",
+                  height: "40px",
+                  overflow: "hidden",
                 }}
               >
                 {data.review}

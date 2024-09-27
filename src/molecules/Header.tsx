@@ -18,9 +18,14 @@ export const Header = (props: {
     navigate("/profile");
   };
 
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("token");
     setIsAuthenticated(false);
+    navigate("/login");
   };
   return (
     <AppBar
@@ -57,35 +62,47 @@ export const Header = (props: {
             ログアウト
           </Button>
         )}
-
         {location.pathname === "/" && (
           <Button sx={{ color: "#fff" }} onClick={navigateToProfile}>
             ユーザー情報
           </Button>
         )}
-
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0 16px",
-            position: "relative",
-          }}
-        >
-          <Typography sx={{ color: "#fff" }}>
-            {userData.name ?? "未ログイン"}
-          </Typography>
+        {isAuthenticated ? (
           <Box
-            component="img"
-            src={userData.iconUrl ?? "default.jpg"}
-            alt="icon"
             sx={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              gap: "0 16px",
+              position: "relative",
             }}
-          />
-        </Box>
+          >
+            <Typography sx={{ color: "#fff" }}>
+              {userData.name ?? "未ログイン"}
+            </Typography>
+            <Box
+              component="img"
+              src={userData.iconUrl ?? "default.jpg"}
+              alt="icon"
+              sx={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+              }}
+            />
+          </Box>
+        ) : (
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#fff",
+              color: "#fff",
+              fontWeight: "bold",
+            }}
+            onClick={navigateToLogin}
+          >
+            ログイン
+          </Button>
+        )}
       </Stack>
     </AppBar>
   );
